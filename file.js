@@ -5,18 +5,26 @@ const fs = require('fs');
 const { dialog } = require('@electron/remote')
 
 function save_file() {
-    let file_name = "file.txt"
+    dialog.showSaveDialog({
+        title: "Choose the file path to save to",
+        properties: []
+    }).then(result => {
+        let file_path = result.filePath;
 
-    // text_box content
-    let file_content = document.getElementById("text_box").value
-    console.log(file_content)
+        // text_box content
+        let file_content = document.getElementById("text_box").value
 
-    fs.writeFile("/home/salmaan/Downloads/" + file_name, file_content, function(err) {
-        if (err) {
-            console.log(err)
-            return
-        }
-        console.log("File saved!")
+        // Write to file (Save file)
+        fs.writeFile(file_path, file_content, function (err) {
+            if (err) {
+                console.log(err)
+                return
+            }
+            console.log("File saved!")
+        })
+
+    }).catch(err => {
+        console.log(err)
     })
 }
 
@@ -26,22 +34,22 @@ function open_file() {
     dialog.showOpenDialog({
         properties: ['openFile']
     }).then(result => {
-        let file_path = result.filePaths[0]; 
-        
+        let file_path = result.filePaths[0];
+
         fs.readFile(file_path, 'utf8', function (err, data) {
-        if (err) {
-            console.log(err)
-            return
-        }
+            if (err) {
+                console.log(err)
+                return
+            }
 
-        document.getElementById("file_path").innerHTML = file_path
+            document.getElementById("file_path").innerHTML = file_path
 
-        console.log("File opened")
-        console.log(data)
+            console.log("File opened")
+            console.log(data)
 
-        // Show the content on the text box
-        document.getElementById("text_box").value = data
-    })
+            // Show the content on the text box
+            document.getElementById("text_box").value = data
+        })
     }).catch(err => {
         console.log(err)
     })
