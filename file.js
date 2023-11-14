@@ -20,6 +20,9 @@ function save_file() {
                 console.log(err)
                 return
             }
+
+            document.getElementById("file_path").innerHTML = file_path
+
             console.log("File saved!")
         })
 
