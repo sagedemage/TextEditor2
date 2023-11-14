@@ -29,6 +29,7 @@ class File {
                         return
                     }
 
+                    alert("File saved!");
                     console.log("File saved!")
                 })
 
@@ -49,6 +50,7 @@ class File {
                     return
                 }
 
+                alert("File saved!");
                 console.log("File saved!")
             })
 
@@ -62,7 +64,7 @@ class File {
             properties: ['openFile']
         }).then(result => {
             this.file_path = result.filePaths[0];
-            
+
             if (this.file_path !== undefined) {
                 fs.readFile(this.file_path, 'utf8', function (err, data) {
                     if (err) {
@@ -70,8 +72,8 @@ class File {
                         return
                     }
 
-                    console.log("File opened")
-                    console.log(data)
+                    alert("File opened!");
+                    console.log("File opened!")
 
                     // Show the content on the text box
                     document.getElementById("text_box").value = data
