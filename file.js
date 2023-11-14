@@ -7,54 +7,46 @@ const { dialog } = require('@electron/remote')
 class File {
     /* File object to perform file operations */
     constructor() {
-        this.file_path = undefined;
+        this.file_path = "";
+    }
+
+    write_file(file_path) {
+        /* Write content to the text file */
+        // text_box content
+        let file_content = document.getElementById("text_box").value
+
+        // Write to file (Save file)
+        fs.writeFile(file_path, file_content, function (err) {
+            if (err) {
+                console.log(err)
+                return
+            }
+
+            alert("File saved!");
+            console.log("File saved!")
+        })
+
+        document.getElementById("file_path").innerHTML = file_path
     }
 
     save_file() {
         /* Save the text file */
-        if (this.file_path === undefined) {
+        if (this.file_path === "") {
             dialog.showSaveDialog({
                 title: "Choose the file path to save to",
                 properties: []
             }).then(result => {
                 this.file_path = result.filePath;
 
-                // text_box content
-                let file_content = document.getElementById("text_box").value
-
-                // Write to file (Save file)
-                fs.writeFile(this.file_path, file_content, function (err) {
-                    if (err) {
-                        console.log(err)
-                        return
-                    }
-
-                    alert("File saved!");
-                    console.log("File saved!")
-                })
-
-                document.getElementById("file_path").innerHTML = this.file_path
-
+                if (this.file_path !== "") {
+                    this.write_file(this.file_path)
+                }
             }).catch(err => {
                 console.log(err)
             })
         }
         else {
-            // text_box content
-            let file_content = document.getElementById("text_box").value
-
-            // Write to file (Save file)
-            fs.writeFile(this.file_path, file_content, function (err) {
-                if (err) {
-                    console.log(err)
-                    return
-                }
-
-                alert("File saved!");
-                console.log("File saved!")
-            })
-
-            document.getElementById("file_path").innerHTML = this.file_path
+            this.write_file(this.file_path)
         }
     }
 
@@ -65,7 +57,7 @@ class File {
         }).then(result => {
             this.file_path = result.filePaths[0];
 
-            if (this.file_path !== undefined) {
+            if (this.file_path !== "") {
                 fs.readFile(this.file_path, 'utf8', function (err, data) {
                     if (err) {
                         console.log(err)
