@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+		<meta
+				http-equiv="Content-Security-Policy"
+				content="default-src 'self'; script-src 'self'"
+				/>
+		<meta
+				http-equiv="X-Content-Security-Policy"
+				content="default-src 'self'; script-src 'self'"
+				/>
+		<link rel="stylesheet" href="index.css"> 
+		<title>Text Editor 2</title>
+	</head>
+	<body>
+		<h1>Text Editor 2</h1>
+		<label for="text_box">Text Editor 2</label>
+		<br>
+		<textarea id="text_box" name="text_box", row="4", cols="50"></textarea>
+		<br>
+		<button id="save_file">Save</button>
+		<script type="module" src="file.js"></script>
+	</body>
+</html>
