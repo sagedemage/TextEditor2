@@ -2,6 +2,8 @@
 
 const { app, BrowserWindow } = require('electron')
 
+require('@electron/remote/main').initialize()
+
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -9,12 +11,15 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
+            enableRemoteModule: true,
         }
     })
 
     win.loadFile('index.html')
 
     win.webContents.openDevTools()
+
+    require("@electron/remote/main").enable(win.webContents)
 }
 
 app.whenReady().then(() => {
