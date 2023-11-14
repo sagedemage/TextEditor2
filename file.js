@@ -5,6 +5,7 @@ const fs = require('fs');
 const { dialog } = require('@electron/remote')
 
 function save_file() {
+    /* Save the text file */
     dialog.showSaveDialog({
         title: "Choose the file path to save to",
         properties: []
@@ -32,8 +33,7 @@ function save_file() {
 }
 
 function open_file() {
-    let file_path = ""
-
+    /* Open the text file */
     dialog.showOpenDialog({
         properties: ['openFile']
     }).then(result => {
