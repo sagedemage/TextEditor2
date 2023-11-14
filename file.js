@@ -4,64 +4,75 @@ const fs = require('fs');
 
 const { dialog } = require('@electron/remote')
 
-function save_file() {
-    /* Save the text file */
-    dialog.showSaveDialog({
-        title: "Choose the file path to save to",
-        properties: []
-    }).then(result => {
-        let file_path = result.filePath;
+class File {
+    /* File object to perform file operations */
+    constructor(file_path) {
+        this.file_path = file_path;
+    }
 
-        // text_box content
-        let file_content = document.getElementById("text_box").value
+    save_file() {
+        /* Save the text file */
+        dialog.showSaveDialog({
+            title: "Choose the file path to save to",
+            properties: []
+        }).then(result => {
+            //let file_path = result.filePath;
+            this.file_path = result.filePath;
 
-        // Write to file (Save file)
-        fs.writeFile(file_path, file_content, function (err) {
-            if (err) {
-                console.log(err)
-                return
-            }
+            // text_box content
+            let file_content = document.getElementById("text_box").value
 
-            document.getElementById("file_path").innerHTML = file_path
+            // Write to file (Save file)
+            fs.writeFile(this.file_path, file_content, function (err) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
 
-            console.log("File saved!")
+                document.getElementById("file_path").innerHTML = this.file_path
+
+                console.log("File saved!")
+            })
+
+        }).catch(err => {
+            console.log(err)
         })
+    }
 
-    }).catch(err => {
-        console.log(err)
-    })
+    open_file() {
+        /* Open the text file */
+        dialog.showOpenDialog({
+            properties: ['openFile']
+        }).then(result => {
+            //let file_path = result.filePaths[0];
+            this.file_path = result.filePaths[0];
+
+            document.getElementById("file_path").innerHTML = this.file_path
+            
+            fs.readFile(this.file_path, 'utf8', function (err, data) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+
+                console.log("File opened")
+                console.log(data)
+
+                // Show the content on the text box
+                document.getElementById("text_box").value = data
+            })
+        }).catch(err => {
+            console.log(err)
+        })
+    }
 }
 
-function open_file() {
-    /* Open the text file */
-    dialog.showOpenDialog({
-        properties: ['openFile']
-    }).then(result => {
-        let file_path = result.filePaths[0];
-
-        fs.readFile(file_path, 'utf8', function (err, data) {
-            if (err) {
-                console.log(err)
-                return
-            }
-
-            document.getElementById("file_path").innerHTML = file_path
-
-            console.log("File opened")
-            console.log(data)
-
-            // Show the content on the text box
-            document.getElementById("text_box").value = data
-        })
-    }).catch(err => {
-        console.log(err)
-    })
-}
+let file = new File("")
 
 document.getElementById('save_file').addEventListener('click', () => {
-    save_file()
+    file.save_file()
 })
 
 document.getElementById('open_file').addEventListener('click', () => {
-    open_file()
+    file.open_file()
 })
