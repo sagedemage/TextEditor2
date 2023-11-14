@@ -12,13 +12,33 @@ class File {
 
     save_file() {
         /* Save the text file */
-        dialog.showSaveDialog({
-            title: "Choose the file path to save to",
-            properties: []
-        }).then(result => {
-            //let file_path = result.filePath;
-            this.file_path = result.filePath;
+        if (this.file_path === undefined) {
+            dialog.showSaveDialog({
+                title: "Choose the file path to save to",
+                properties: []
+            }).then(result => {
+                this.file_path = result.filePath;
 
+                // text_box content
+                let file_content = document.getElementById("text_box").value
+
+                // Write to file (Save file)
+                fs.writeFile(this.file_path, file_content, function (err) {
+                    if (err) {
+                        console.log(err)
+                        return
+                    }
+
+                    console.log("File saved!")
+                })
+
+                document.getElementById("file_path").innerHTML = this.file_path
+
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+        else {
             // text_box content
             let file_content = document.getElementById("text_box").value
 
@@ -31,12 +51,9 @@ class File {
 
                 console.log("File saved!")
             })
-                
-            document.getElementById("file_path").innerHTML = this.file_path
 
-        }).catch(err => {
-            console.log(err)
-        })
+            document.getElementById("file_path").innerHTML = this.file_path
+        }
     }
 
     open_file() {
@@ -44,24 +61,25 @@ class File {
         dialog.showOpenDialog({
             properties: ['openFile']
         }).then(result => {
-            //let file_path = result.filePaths[0];
             this.file_path = result.filePaths[0];
-
-            fs.readFile(this.file_path, 'utf8', function (err, data) {
-                if (err) {
-                    console.log(err)
-                    return
-                }
-
-                console.log("File opened")
-                console.log(data)
-
-                // Show the content on the text box
-                document.getElementById("text_box").value = data
-            })
             
-            document.getElementById("file_path").innerHTML = this.file_path
-        
+            if (this.file_path !== undefined) {
+                fs.readFile(this.file_path, 'utf8', function (err, data) {
+                    if (err) {
+                        console.log(err)
+                        return
+                    }
+
+                    console.log("File opened")
+                    console.log(data)
+
+                    // Show the content on the text box
+                    document.getElementById("text_box").value = data
+                })
+
+                document.getElementById("file_path").innerHTML = this.file_path
+            }
+
         }).catch(err => {
             console.log(err)
         })
