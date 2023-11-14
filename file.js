@@ -6,8 +6,8 @@ const { dialog } = require('@electron/remote')
 
 class File {
     /* File object to perform file operations */
-    constructor(file_path) {
-        this.file_path = file_path;
+    constructor() {
+        this.file_path = undefined;
     }
 
     save_file() {
@@ -29,10 +29,10 @@ class File {
                     return
                 }
 
-                document.getElementById("file_path").innerHTML = this.file_path
-
                 console.log("File saved!")
             })
+                
+            document.getElementById("file_path").innerHTML = this.file_path
 
         }).catch(err => {
             console.log(err)
@@ -47,8 +47,6 @@ class File {
             //let file_path = result.filePaths[0];
             this.file_path = result.filePaths[0];
 
-            document.getElementById("file_path").innerHTML = this.file_path
-            
             fs.readFile(this.file_path, 'utf8', function (err, data) {
                 if (err) {
                     console.log(err)
@@ -61,13 +59,16 @@ class File {
                 // Show the content on the text box
                 document.getElementById("text_box").value = data
             })
+            
+            document.getElementById("file_path").innerHTML = this.file_path
+        
         }).catch(err => {
             console.log(err)
         })
     }
 }
 
-let file = new File("")
+let file = new File()
 
 document.getElementById('save_file').addEventListener('click', () => {
     file.save_file()
