@@ -48,15 +48,20 @@ class File {
             console.log(result)
         })
 
-        // Write to file (Save file)
-        fs.writeFileSync(file_path, file_content)
+        try {
+            // Write to file (Save file)
+            fs.writeFileSync(file_path, file_content)
 
-        this.show_notification("Saved", "File saved!")
+            this.show_notification("Saved", "File saved!")
 
-        // show the file path on the page
-        this.show_file_path(this.file_path)
+            // show the file path on the page
+            this.show_file_path(this.file_path)
 
-        console.log("File saved!")
+            console.log("File saved!")
+        }
+        catch(error) {
+            console.error(error)
+        }
     }
 
     async save_file() {
