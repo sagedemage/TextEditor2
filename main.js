@@ -1,8 +1,7 @@
 /* Main Program */
 
-const { app, BrowserWindow } = require('electron')
-
-require('@electron/remote/main').initialize()
+const File = require("./file")
+const { app, BrowserWindow, Menu } = require('electron')
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -18,16 +17,107 @@ const createWindow = () => {
     win.loadFile('index.html')
 
     win.webContents.openDevTools()
+}
 
-    require("@electron/remote/main").enable(win.webContents)
+const createMenu = () => {
+    const isMac = process.platform === 'darwin'
+
+    let file = new File()
+
+    const template = [
+        ...(isMac
+            ? [{
+                label: app.name,
+                submenu: [
+                    { role: 'about' },
+                    { type: 'separator' },
+                    { role: 'services' },
+                    { type: 'separator' },
+                    { role: 'hide' },
+                    { role: 'hideOthers' },
+                    { role: 'unhide' },
+                    { type: 'separator' },
+                    { role: 'quit' }
+                ]
+            }]
+            : []),
+        {
+            label: 'File',
+            submenu: [
+                {
+                    label: 'Open File',
+                    accelerator: 'CommandOrControl+O',
+                    click: async () => {
+                        console.log("Open file")
+                        file.open_file()
+                    }
+                },
+                {
+                    label: 'Save',
+                    accelerator: 'CommandOrControl+S',
+                    click: async () => {
+                        console.log("Save file")
+                        file.save_file()
+                    }
+                },
+            ]
+        },
+        {
+            label: 'View',
+            submenu: [
+                { role: 'reload' },
+                { role: 'forceReload' },
+                { role: 'toggleDevTools' },
+                { type: 'separator' },
+                { role: 'resetZoom' },
+                { role: 'zoomIn' },
+                { role: 'zoomOut' },
+                { type: 'separator' },
+                { role: 'togglefullscreen' }
+            ]
+        },
+        {
+            label: 'Window',
+            submenu: [
+                { role: 'minimize' },
+                ...(isMac
+                    ? [
+                        { type: 'separator' },
+                        { role: 'front' },
+                        { type: 'separator' },
+                        { role: 'window' }
+                    ]
+                    : [
+                        { role: 'close' }
+                    ])
+            ]
+        },
+        {
+            role: 'help',
+            submenu: [
+                {
+                    label: 'Learn More',
+                    click: async () => {
+                        const { shell } = require('electron')
+                        await shell.openExternal('https://github.com/sagedemage/TextEditor2')
+                    }
+                }
+            ]
+        }
+    ]
+
+    const menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
 }
 
 app.whenReady().then(() => {
     createWindow()
+    createMenu()
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow()
+            createMenu()
         }
     })
 })
@@ -37,5 +127,3 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
-
-

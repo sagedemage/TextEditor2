@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-const { dialog } = require('@electron/remote')
+const { dialog, Notification, BrowserWindow } = require('electron')
 
 class File {
     /* File object to perform file operations */
@@ -10,73 +10,105 @@ class File {
         this.file_path = "";
     }
 
-    write_file(file_path) {
-        /* Write content to the text file */
-        // text_box content
-        let file_content = document.getElementById("text_box").value
+    show_file_path(file_path) {
+        /* Show the file path on the title of the window */
+        let win = BrowserWindow.getFocusedWindow()
 
-        // Write to file (Save file)
-        fs.writeFile(file_path, file_content, function (err) {
-            if (err) {
-                console.log(err)
-                return
-            }
-
-            alert("File saved!");
-            console.log("File saved!")
-        })
-
-        document.getElementById("file_path").innerHTML = file_path
+        win.setTitle('Text Editor 2 - ' + file_path)
     }
 
-    save_file() {
+    show_notification(title, body) {
+        const options = {
+            title: title,
+            subtitle: 'Subtitle of the Notification',
+            body: body,
+            silent: false,
+            hasReply: true,
+            timeoutType: 'never',
+            replyPlaceholder: 'Reply Here',
+            closeButtonText: 'Close Button',
+            actions: [{
+                type: 'button',
+                text: 'Show Button'
+            }]
+        }
+
+        // Create a new Notification with custom options
+        const customNotification = new Notification(options);
+
+        customNotification.show();
+    }
+
+    async write_file(file_path) {
+        /* Write content to the text file */
+        const web_contents = BrowserWindow.getFocusedWindow().webContents;
+
+        // text_box content
+        let file_content = await web_contents.executeJavaScript(`document.getElementById("text_box").value`, function (result) {
+            console.log(result)
+        })
+
+        try {
+            // Write to file (Save file)
+            fs.writeFileSync(file_path, file_content)
+
+            this.show_notification("Saved", "File saved!")
+
+            // show the file path on the page
+            this.show_file_path(this.file_path)
+
+            console.log("File saved!")
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
+    async save_file() {
         /* Save the text file */
         if (this.file_path === "") {
-            dialog.showSaveDialog({
+            const { filePath } = await dialog.showSaveDialog({
                 title: "Choose the file path to save to",
                 properties: []
-            }).then(result => {
-                this.file_path = result.filePath;
-
-                if (this.file_path !== "") {
-                    this.write_file(this.file_path)
-                }
-            }).catch(err => {
-                console.log(err)
             })
+
+            if (filePath !== "") {
+                this.file_path = filePath;
+                this.write_file(this.file_path)
+            }
         }
         else {
             this.write_file(this.file_path)
         }
     }
 
-    open_file() {
+    async open_file() {
         /* Open the text file */
-        dialog.showOpenDialog({
+        const web_contents = BrowserWindow.getFocusedWindow().webContents;
+
+        const { filePaths } = await dialog.showOpenDialog({
             properties: ['openFile']
-        }).then(result => {
-            this.file_path = result.filePaths[0];
+        })
+
+        if (filePaths[0] !== undefined) {
+            this.file_path = filePaths[0];
 
             if (this.file_path !== "") {
-                fs.readFile(this.file_path, 'utf8', function (err, data) {
-                    if (err) {
-                        console.log(err)
-                        return
-                    }
+                const content = fs.readFileSync(this.file_path, 'utf8')
 
-                    alert("File opened!");
-                    console.log("File opened!")
-
-                    // Show the content on the text box
-                    document.getElementById("text_box").value = data
+                // Show the content on the text box
+                web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
+                    console.log(result)
                 })
 
-                document.getElementById("file_path").innerHTML = this.file_path
-            }
+                this.show_notification("Opened", "File opened!")
 
-        }).catch(err => {
-            console.log(err)
-        })
+                // show the file path on the page
+                this.show_file_path(this.file_path)
+
+                console.log("File opened!")
+            }
+        }
     }
 }
 
