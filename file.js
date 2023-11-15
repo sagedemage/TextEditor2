@@ -12,12 +12,9 @@ class File {
 
     show_file_path(file_path) {
         /* Show the file path on the page */
-        const web_contents = BrowserWindow.getFocusedWindow().webContents;
+        let win = BrowserWindow.getFocusedWindow()
 
-        // show the file path
-        web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${file_path}"`, function (result) {
-            console.log(result)
-        })
+        win.setTitle('Text Editor 2 - ' + file_path)
     }
 
     show_notification(title, body) {
