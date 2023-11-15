@@ -1,7 +1,7 @@
 /* Main Program */
 
 const File = require("./file")
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -109,6 +109,9 @@ const createMenu = () => {
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 }
+
+// use the system's theme
+nativeTheme.themeSource = 'system'
 
 app.whenReady().then(() => {
     createWindow()
