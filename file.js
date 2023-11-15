@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-const { dialog } = require('@electron/remote')
+const { dialog, Notification, BrowserWindow } = require('electron')
 
 class File {
     /* File object to perform file operations */
@@ -10,10 +10,37 @@ class File {
         this.file_path = "";
     }
 
-    write_file(file_path) {
+    show_notification(title, body) {
+        const options = {
+            title: title,
+            subtitle: 'Subtitle of the Notification',
+            body: body,
+            silent: false,
+            hasReply: true,
+            timeoutType: 'never',
+            replyPlaceholder: 'Reply Here',
+            closeButtonText: 'Close Button',
+            actions: [{
+                type: 'button',
+                text: 'Show Button'
+            }]
+        }
+
+        // Instantiating a new Notifications Object
+        // with custom Options
+        const customNotification = new Notification(options);
+
+        customNotification.show();
+    }
+
+    async write_file(file_path) {
         /* Write content to the text file */
+        const web_contents = BrowserWindow.getFocusedWindow().webContents;
+
         // text_box content
-        let file_content = document.getElementById("text_box").value
+        let file_content = await web_contents.executeJavaScript(`document.getElementById("text_box").value`, function (result) {
+            console.log(result)
+        })
 
         // Write to file (Save file)
         fs.writeFile(file_path, file_content, function (err) {
@@ -22,11 +49,14 @@ class File {
                 return
             }
 
-            alert("File saved!");
             console.log("File saved!")
         })
 
-        document.getElementById("file_path").innerHTML = file_path
+        this.show_notification("Saved", "File saved!")
+
+        web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${this.file_path}"`, function (result) {
+            console.log(result)
+        })
     }
 
     save_file() {
@@ -52,6 +82,8 @@ class File {
 
     open_file() {
         /* Open the text file */
+        const web_contents = BrowserWindow.getFocusedWindow().webContents;
+
         dialog.showOpenDialog({
             properties: ['openFile']
         }).then(result => {
@@ -64,14 +96,22 @@ class File {
                         return
                     }
 
-                    alert("File opened!");
+                    //alert("File opened!");
                     console.log("File opened!")
 
+                    // issue right here
                     // Show the content on the text box
-                    document.getElementById("text_box").value = data
+                    web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${data}\``, function (result) {
+                        console.log(result)
+                    })
                 })
 
-                document.getElementById("file_path").innerHTML = this.file_path
+                this.show_notification("Opened", "File opened!")
+
+                // issue is right here
+                web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${this.file_path}"`, function (result) {
+                    console.log(result)
+                })
             }
 
         }).catch(err => {
