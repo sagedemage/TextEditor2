@@ -59,21 +59,18 @@ class File {
         console.log("File saved!")
     }
 
-    save_file() {
+    async save_file() {
         /* Save the text file */
         if (this.file_path === "") {
-            dialog.showSaveDialog({
+            const { filePath } = await dialog.showSaveDialog({
                 title: "Choose the file path to save to",
                 properties: []
-            }).then(result => {
-                this.file_path = result.filePath;
-
-                if (this.file_path !== "") {
-                    this.write_file(this.file_path)
-                }
-            }).catch(err => {
-                console.log(err)
             })
+
+            if (filePath !== "") {
+                this.file_path = filePath;
+                this.write_file(this.file_path)
+            }
         }
         else {
             this.write_file(this.file_path)
