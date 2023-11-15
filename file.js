@@ -49,19 +49,14 @@ class File {
         })
 
         // Write to file (Save file)
-        fs.writeFile(file_path, file_content, function (err) {
-            if (err) {
-                console.log(err)
-                return
-            }
-
-            console.log("File saved!")
-        })
+        fs.writeFileSync(file_path, file_content)
 
         this.show_notification("Saved", "File saved!")
 
         // show the file path on the page
         this.show_file_path(this.file_path)
+        
+        console.log("File saved!")
     }
 
     save_file() {
@@ -108,7 +103,7 @@ class File {
 
                 // show the file path on the page
                 this.show_file_path(this.file_path)
-                
+
                 console.log("File opened!")
             }
         }
