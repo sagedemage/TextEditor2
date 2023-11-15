@@ -46,6 +46,7 @@ const createMenu = () => {
             submenu: [
                 {
                     label: 'Open File',
+                    accelerator: 'CommandOrControl+O',
                     click: async () => {
                         console.log("Open file")
                         file.open_file()
@@ -53,6 +54,7 @@ const createMenu = () => {
                 },
                 {
                     label: 'Save',
+                    accelerator: 'CommandOrControl+S',
                     click: async () => {
                         console.log("Save file")
                         file.save_file()
