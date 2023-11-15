@@ -11,7 +11,7 @@ class File {
     }
 
     show_file_path(file_path) {
-        /* Show the file path on the page */
+        /* Show the file path on the title of the window */
         let win = BrowserWindow.getFocusedWindow()
 
         win.setTitle('Text Editor 2 - ' + file_path)
