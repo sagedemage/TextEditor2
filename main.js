@@ -3,8 +3,6 @@
 const File = require("./file")
 const { app, BrowserWindow, Menu } = require('electron')
 
-require('@electron/remote/main').initialize()
-
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -19,8 +17,6 @@ const createWindow = () => {
     win.loadFile('index.html')
 
     win.webContents.openDevTools()
-
-    require("@electron/remote/main").enable(win.webContents)
 }
 
 const createMenu = () => {
