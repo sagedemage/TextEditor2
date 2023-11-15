@@ -78,7 +78,6 @@ const createMenu = () => {
             label: 'Window',
             submenu: [
                 { role: 'minimize' },
-                { role: 'zoom' },
                 ...(isMac
                     ? [
                         { type: 'separator' },
