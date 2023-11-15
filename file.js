@@ -10,6 +10,16 @@ class File {
         this.file_path = "";
     }
 
+    show_file_path(file_path) {
+        /* Show the file path on the page */
+        const web_contents = BrowserWindow.getFocusedWindow().webContents;
+
+        // show the file path
+        web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${file_path}"`, function (result) {
+            console.log(result)
+        })
+    }
+
     show_notification(title, body) {
         const options = {
             title: title,
@@ -53,9 +63,8 @@ class File {
 
         this.show_notification("Saved", "File saved!")
 
-        web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${this.file_path}"`, function (result) {
-            console.log(result)
-        })
+        // show the file path on the page
+        this.show_file_path(this.file_path)
     }
 
     save_file() {
@@ -105,9 +114,8 @@ class File {
 
                 this.show_notification("Opened", "File opened!")
 
-                web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${this.file_path}"`, function (result) {
-                    console.log(result)
-                })
+                // show the file path on the page
+                this.show_file_path(this.file_path)
             }
 
         }).catch(err => {
