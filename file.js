@@ -85,39 +85,33 @@ class File {
         }
     }
 
-    open_file() {
+    async open_file() {
         /* Open the text file */
         const web_contents = BrowserWindow.getFocusedWindow().webContents;
 
-        dialog.showOpenDialog({
+        const { filePaths } = await dialog.showOpenDialog({
             properties: ['openFile']
-        }).then(result => {
-            this.file_path = result.filePaths[0];
+        })
 
-            if (this.file_path !== "") {
-                fs.readFile(this.file_path, 'utf8', function (err, data) {
-                    if (err) {
-                        console.log(err)
-                        return
-                    }
+        this.file_path = filePaths[0];
 
-                    console.log("File opened!")
+        if (this.file_path !== "") {
+            const content = fs.readFileSync(this.file_path, 'utf8')
 
-                    // Show the content on the text box
-                    web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${data}\``, function (result) {
-                        console.log(result)
-                    })
+            if (content !== "") {
+                // Show the content on the text box
+                web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
+                    console.log(result)
                 })
 
                 this.show_notification("Opened", "File opened!")
 
                 // show the file path on the page
                 this.show_file_path(this.file_path)
+                
+                console.log("File opened!")
             }
-
-        }).catch(err => {
-            console.log(err)
-        })
+        }
     }
 }
 
