@@ -48,14 +48,14 @@ const createMenu = () => {
         {
             label: 'File',
             submenu: [
-                { 
-                    label: 'Open File', 
+                {
+                    label: 'Open File',
                     click: async () => {
                         console.log("Open file")
                         file.open_file()
                     }
-                }, 
-                { 
+                },
+                {
                     label: 'Save',
                     click: async () => {
                         console.log("Save file")
