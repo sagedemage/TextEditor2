@@ -59,7 +59,7 @@ class File {
 
             console.log("File saved!")
         }
-        catch(error) {
+        catch (error) {
             console.error(error)
         }
     }
@@ -96,19 +96,17 @@ class File {
             if (this.file_path !== "") {
                 const content = fs.readFileSync(this.file_path, 'utf8')
 
-                if (content !== "") {
-                    // Show the content on the text box
-                    web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
-                        console.log(result)
-                    })
+                // Show the content on the text box
+                web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
+                    console.log(result)
+                })
 
-                    this.show_notification("Opened", "File opened!")
+                this.show_notification("Opened", "File opened!")
 
-                    // show the file path on the page
-                    this.show_file_path(this.file_path)
+                // show the file path on the page
+                this.show_file_path(this.file_path)
 
-                    console.log("File opened!")
-                }
+                console.log("File opened!")
             }
         }
     }
