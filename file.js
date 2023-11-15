@@ -55,7 +55,7 @@ class File {
 
         // show the file path on the page
         this.show_file_path(this.file_path)
-        
+
         console.log("File saved!")
     }
 
@@ -88,23 +88,25 @@ class File {
             properties: ['openFile']
         })
 
-        this.file_path = filePaths[0];
+        if (filePaths[0] !== undefined) {
+            this.file_path = filePaths[0];
 
-        if (this.file_path !== "") {
-            const content = fs.readFileSync(this.file_path, 'utf8')
+            if (this.file_path !== "") {
+                const content = fs.readFileSync(this.file_path, 'utf8')
 
-            if (content !== "") {
-                // Show the content on the text box
-                web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
-                    console.log(result)
-                })
+                if (content !== "") {
+                    // Show the content on the text box
+                    web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
+                        console.log(result)
+                    })
 
-                this.show_notification("Opened", "File opened!")
+                    this.show_notification("Opened", "File opened!")
 
-                // show the file path on the page
-                this.show_file_path(this.file_path)
+                    // show the file path on the page
+                    this.show_file_path(this.file_path)
 
-                console.log("File opened!")
+                    console.log("File opened!")
+                }
             }
         }
     }
