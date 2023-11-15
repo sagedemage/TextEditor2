@@ -26,8 +26,7 @@ class File {
             }]
         }
 
-        // Instantiating a new Notifications Object
-        // with custom Options
+        // Create a new Notification with custom options
         const customNotification = new Notification(options);
 
         customNotification.show();
@@ -96,10 +95,8 @@ class File {
                         return
                     }
 
-                    //alert("File opened!");
                     console.log("File opened!")
 
-                    // issue right here
                     // Show the content on the text box
                     web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${data}\``, function (result) {
                         console.log(result)
@@ -108,7 +105,6 @@ class File {
 
                 this.show_notification("Opened", "File opened!")
 
-                // issue is right here
                 web_contents.executeJavaScript(`document.getElementById("file_path").innerHTML = "${this.file_path}"`, function (result) {
                     console.log(result)
                 })
