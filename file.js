@@ -93,19 +93,23 @@ class File {
             this.file_path = filePaths[0];
 
             if (this.file_path !== '') {
-                const content = fs.readFileSync(this.file_path, 'utf8')
+                fs.readFile(this.file_path, 'utf8', function (err, content) {
+                    if (err) {
+                        console.error(err)
+                    }
 
-                // Show the content on the text box
-                web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
-                    console.log(result)
+                    console.log('File opened!')
+
+                    // Show the content on the text box
+                    web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
+                        console.log(result)
+                    })
                 })
 
                 this.show_notification('Opened', 'File opened!')
 
                 // show the file path on the page
                 this.show_file_path(this.file_path)
-
-                console.log('File opened!')
             }
         }
     }
