@@ -1,6 +1,6 @@
 /* Main Program */
 
-const File = require("./file")
+const File = require('./file')
 const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
 
 const createWindow = () => {
@@ -48,7 +48,7 @@ const createMenu = () => {
                     label: 'Open File',
                     accelerator: 'CommandOrControl+O',
                     click: async () => {
-                        console.log("Open file")
+                        console.log('Open file')
                         file.open_file()
                     }
                 },
@@ -56,7 +56,7 @@ const createMenu = () => {
                     label: 'Save',
                     accelerator: 'CommandOrControl+S',
                     click: async () => {
-                        console.log("Save file")
+                        console.log('Save file')
                         file.save_file()
                     }
                 },

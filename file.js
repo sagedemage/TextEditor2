@@ -7,7 +7,7 @@ const { dialog, Notification, BrowserWindow } = require('electron')
 class File {
     /* File object to perform file operations */
     constructor() {
-        this.file_path = "";
+        this.file_path = '';
     }
 
     show_file_path(file_path) {
@@ -52,12 +52,12 @@ class File {
             // Write to file (Save file)
             fs.writeFileSync(file_path, file_content)
 
-            this.show_notification("Saved", "File saved!")
+            this.show_notification('Saved', 'File saved!')
 
             // show the file path on the page
             this.show_file_path(this.file_path)
 
-            console.log("File saved!")
+            console.log('File saved!')
         }
         catch (error) {
             console.error(error)
@@ -66,13 +66,13 @@ class File {
 
     async save_file() {
         /* Save the text file */
-        if (this.file_path === "") {
+        if (this.file_path === '') {
             const { filePath } = await dialog.showSaveDialog({
-                title: "Choose the file path to save to",
+                title: 'Choose the file path to save to',
                 properties: []
             })
 
-            if (filePath !== "") {
+            if (filePath !== '') {
                 this.file_path = filePath;
                 this.write_file(this.file_path)
             }
@@ -93,7 +93,7 @@ class File {
         if (filePaths[0] !== undefined) {
             this.file_path = filePaths[0];
 
-            if (this.file_path !== "") {
+            if (this.file_path !== '') {
                 const content = fs.readFileSync(this.file_path, 'utf8')
 
                 // Show the content on the text box
@@ -101,12 +101,12 @@ class File {
                     console.log(result)
                 })
 
-                this.show_notification("Opened", "File opened!")
+                this.show_notification('Opened', 'File opened!')
 
                 // show the file path on the page
                 this.show_file_path(this.file_path)
 
-                console.log("File opened!")
+                console.log('File opened!')
             }
         }
     }
