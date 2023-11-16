@@ -22,7 +22,7 @@ const createWindow = () => {
 const createMenu = () => {
     const isMac = process.platform === 'darwin'
 
-    let file = new File()
+    const file = new File()
 
     const template = [
         ...(isMac

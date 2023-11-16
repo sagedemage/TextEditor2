@@ -12,7 +12,7 @@ class File {
 
     show_file_path(file_path) {
         /* Show the file path on the title of the window */
-        let win = BrowserWindow.getFocusedWindow()
+        const win = BrowserWindow.getFocusedWindow()
 
         win.setTitle('Text Editor 2 - ' + file_path)
     }
@@ -44,7 +44,7 @@ class File {
         const web_contents = BrowserWindow.getFocusedWindow().webContents;
 
         // text_box content
-        let file_content = await web_contents.executeJavaScript('document.getElementById("text_box").value', function (result) {
+        const file_content = await web_contents.executeJavaScript('document.getElementById("text_box").value', function (result) {
             console.log(result)
         })
 
