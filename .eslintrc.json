@@ -12,7 +12,7 @@
         "eqeqeq": "error",
         "curly": "error",
         "quotes": [
-            "warn",
+            "error",
             "single"
         ]
     }
