@@ -16,6 +16,7 @@
             "single"
         ],
         "no-unused-vars": "error",
-        "prefer-const": "error"
+        "prefer-const": "error",
+        "require-await": "error"
     }
 }
