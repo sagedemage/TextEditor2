@@ -1,15 +1,15 @@
 {
   "name": "texteditor2",
   "version": "1.0.0",
-  "description": "",
+  "description": "cross platform text editor",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint ."
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Salmaan Saeed",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "electron": "^27.0.4",
     "eslint": "^8.53.0"
