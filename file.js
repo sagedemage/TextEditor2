@@ -44,7 +44,7 @@ class File {
         const web_contents = BrowserWindow.getFocusedWindow().webContents;
 
         // text_box content
-        let file_content = await web_contents.executeJavaScript(`document.getElementById("text_box").value`, function (result) {
+        let file_content = await web_contents.executeJavaScript('document.getElementById("text_box").value', function (result) {
             console.log(result)
         })
 
