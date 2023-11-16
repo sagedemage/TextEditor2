@@ -1,6 +1,6 @@
 /* Main Program */
 
-const File = require("./file")
+const File = require('./file')
 const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
 
 const createWindow = () => {
@@ -22,7 +22,7 @@ const createWindow = () => {
 const createMenu = () => {
     const isMac = process.platform === 'darwin'
 
-    let file = new File()
+    const file = new File()
 
     const template = [
         ...(isMac
@@ -47,16 +47,16 @@ const createMenu = () => {
                 {
                     label: 'Open File',
                     accelerator: 'CommandOrControl+O',
-                    click: async () => {
-                        console.log("Open file")
+                    click: () => {
+                        console.log('Open file')
                         file.open_file()
                     }
                 },
                 {
                     label: 'Save',
                     accelerator: 'CommandOrControl+S',
-                    click: async () => {
-                        console.log("Save file")
+                    click: () => {
+                        console.log('Save file')
                         file.save_file()
                     }
                 },
