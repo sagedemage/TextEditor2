@@ -46,8 +46,6 @@ class File {
             if (err) {
                 console.error(err)
             }
-
-            console.log('File saved!')
         })
 
         // show the file path on the page
@@ -90,8 +88,6 @@ class File {
                     if (err) {
                         console.error(err)
                     }
-
-                    console.log('File opened!')
 
                     // Show the content on the text box
                     web_contents.send('set-content', content)

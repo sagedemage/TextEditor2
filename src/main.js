@@ -53,7 +53,6 @@ const createMenu = (win) => {
                     accelerator: 'CommandOrControl+O',
                     click: () => {
                         file.open_file()
-                        console.log('Open file')
                     }
                 },
                 {
@@ -61,7 +60,6 @@ const createMenu = (win) => {
                     accelerator: 'CommandOrControl+S',
                     click: () => {
                         win.webContents.send('get-content')
-                        console.log('Save file')
                     }
                 },
             ]
