@@ -64,14 +64,6 @@ const createMenu = (win) => {
                         console.log('Save file')
                     }
                 },
-                {
-                    click: () => win.webContents.send('update-counter', 1),
-                    label: 'Increment'
-                },
-                {
-                    click: () => win.webContents.send('update-counter', -1),
-                    label: 'Decrement'
-                }
             ]
         },
         {
