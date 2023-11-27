@@ -2,7 +2,7 @@
   "name": "texteditor2",
   "version": "1.0.0",
   "description": "cross platform text editor",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
