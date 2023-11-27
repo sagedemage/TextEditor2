@@ -16,7 +16,7 @@ window.electronAPI.handleCounter((event, value) => {
     event.sender.send('counter-value', newValue)
 })
 
-window.electronAPI.handleContent((event, value) => {
+window.electronAPI.handleSetContent((event, value) => {
     /* Set text area content */
     document.getElementById("text_box").value = `${value}`
 })
