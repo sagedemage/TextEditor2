@@ -39,14 +39,9 @@ class File {
         customNotification.show();
     }
 
-    async write_file(file_path) {
+    async write_file(file_path, file_content) {
         /* Write content to the text file */
         const web_contents = BrowserWindow.getFocusedWindow().webContents;
-
-        // text_box content
-        const file_content = await web_contents.executeJavaScript('document.getElementById("text_box").value', function (result) {
-            console.log(result)
-        })
 
         // Write to file (Save file)
         fs.writeFile(file_path, file_content, function (err) {
@@ -63,7 +58,7 @@ class File {
         this.show_notification('Saved', 'File saved!')
     }
 
-    async save_file() {
+    async save_file(file_content) {
         /* Save the text file */
         if (this.file_path === '') {
             const { filePath } = await dialog.showSaveDialog({
@@ -73,11 +68,11 @@ class File {
 
             if (filePath !== '') {
                 this.file_path = filePath;
-                this.write_file(this.file_path)
+                this.write_file(this.file_path, file_content)
             }
         }
         else {
-            this.write_file(this.file_path)
+            this.write_file(this.file_path, file_content)
         }
     }
 

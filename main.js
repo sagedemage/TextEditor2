@@ -59,16 +59,16 @@ const createMenu = (win) => {
                     label: 'Open File',
                     accelerator: 'CommandOrControl+O',
                     click: () => {
-                        console.log('Open file')
                         file.open_file()
+                        console.log('Open file')
                     }
                 },
                 {
                     label: 'Save',
                     accelerator: 'CommandOrControl+S',
                     click: () => {
+                        win.webContents.send('get-content')
                         console.log('Save file')
-                        file.save_file()
                     }
                 },
                 {
@@ -124,6 +124,11 @@ const createMenu = (win) => {
             ]
         }
     ]
+
+    // IPC
+    ipcMain.on('write-content', (event, file_content) => {
+        file.save_file(file_content)
+    })
 
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
