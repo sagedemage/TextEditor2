@@ -1,7 +1,8 @@
 /* Main Program */
 
 const File = require('./file')
-const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
+const { app, BrowserWindow, Menu, nativeTheme, ipcMain } = require('electron')
+const path = require('node:path')
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -9,9 +10,17 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false,
+            contextIsolation: true,
             enableRemoteModule: true,
+            preload: path.join(__dirname, 'preload.js'),
         }
+    })
+
+    // IPC
+    ipcMain.on('set-title', (event, title) => {
+        const webContents = event.sender;
+        const win = BrowserWindow.fromWebContents(webContents)
+        win.setTitle(title)
     })
 
     win.loadFile('index.html')
