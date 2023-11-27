@@ -16,13 +16,6 @@ const createWindow = () => {
         }
     })
 
-    // IPC
-    ipcMain.on('set-title', (event, title) => {
-        const webContents = event.sender;
-        const win = BrowserWindow.fromWebContents(webContents)
-        win.setTitle(title)
-    })
-
     win.loadFile('src/index.html')
 
     win.webContents.openDevTools()
