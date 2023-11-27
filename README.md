@@ -1,6 +1,7 @@
 # TextEditor2
-
 Cross platform text editor written in Electron.
+
+![Text Editor Window](./images/text_editor_window.webp)
 
 ## Dependencies
 Install rpm to make a rpm package on Ubuntu or Debian
@@ -13,5 +14,4 @@ sudo apt install rpm
 npm run make -- --arch="x64" --platform="linux"
 ```
 
-![Text Editor Window](./images/text_editor_window.webp)
 
