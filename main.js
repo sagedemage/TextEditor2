@@ -31,7 +31,6 @@ const createWindow = () => {
 }
 
 const createMenu = (win) => {
-    //const win = BrowserWindow.getFocusedWindow();
     const isMac = process.platform === 'darwin'
 
     const file = new File()
