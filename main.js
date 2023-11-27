@@ -142,7 +142,7 @@ app.whenReady().then(() => {
         console.log(value) // will print value to Node console
     })
 
-    let win = createWindow()
+    const win = createWindow()
     createMenu(win)
 
     app.on('activate', () => {

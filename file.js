@@ -39,10 +39,8 @@ class File {
         customNotification.show();
     }
 
-    async write_file(file_path, file_content) {
+    write_file(file_path, file_content) {
         /* Write content to the text file */
-        const web_contents = BrowserWindow.getFocusedWindow().webContents;
-
         // Write to file (Save file)
         fs.writeFile(file_path, file_content, function (err) {
             if (err) {
