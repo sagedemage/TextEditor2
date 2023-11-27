@@ -8,7 +8,7 @@ Install rpm to make a rpm package on Ubuntu or Debian
 sudo apt install rpm
 ```
 
-## Make a deb and rpm package for linux
+## Make deb and rpm packages for linux
 ```
 npm run make -- --arch="x64" --platform="linux"
 ```
