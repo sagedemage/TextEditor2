@@ -26,9 +26,12 @@ const createWindow = () => {
     win.loadFile('index.html')
 
     win.webContents.openDevTools()
+
+    return win;
 }
 
-const createMenu = () => {
+const createMenu = (win) => {
+    //const win = BrowserWindow.getFocusedWindow();
     const isMac = process.platform === 'darwin'
 
     const file = new File()
@@ -69,6 +72,14 @@ const createMenu = () => {
                         file.save_file()
                     }
                 },
+                {
+                    click: () => win.webContents.send('update-counter', 1),
+                    label: 'Increment'
+                },
+                {
+                    click: () => win.webContents.send('update-counter', -1),
+                    label: 'Decrement'
+                }
             ]
         },
         {
@@ -123,8 +134,8 @@ const createMenu = () => {
 nativeTheme.themeSource = 'system'
 
 app.whenReady().then(() => {
-    createWindow()
-    createMenu()
+    let win = createWindow()
+    createMenu(win)
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
