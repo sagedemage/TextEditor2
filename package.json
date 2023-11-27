@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint src"
+    "lint-node": "npx eslint src/main.js src/file.js src/preload.js",
+    "lint-browser": "npx eslint --config .browser-eslintrc.json src/renderer.js"
   },
   "author": "Salmaan Saeed",
   "license": "BSD-3-Clause",
