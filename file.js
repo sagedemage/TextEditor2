@@ -101,9 +101,7 @@ class File {
                     console.log('File opened!')
 
                     // Show the content on the text box
-                    web_contents.executeJavaScript(`document.getElementById("text_box").value = \`${content}\``, function (result) {
-                        console.log(result)
-                    })
+                    web_contents.send('set-content', content)
                 })
 
                 this.show_notification('Opened', 'File opened!')
