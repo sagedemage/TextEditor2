@@ -123,10 +123,6 @@ const createMenu = (win) => {
 nativeTheme.themeSource = 'system'
 
 app.whenReady().then(() => {
-    ipcMain.on('counter-value', (_event, value) => {
-        console.log(value) // will print value to Node console
-    })
-
     const win = createWindow()
     createMenu(win)
 
