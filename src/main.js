@@ -1,7 +1,8 @@
 /* Main Program */
 
 const File = require('./file')
-const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
+const { app, BrowserWindow, Menu, nativeTheme, ipcMain } = require('electron')
+const path = require('node:path')
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -9,17 +10,20 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false,
+            contextIsolation: true,
             enableRemoteModule: true,
+            preload: path.join(__dirname, 'preload.js'),
         }
     })
 
-    win.loadFile('index.html')
+    win.loadFile('src/index.html')
 
     win.webContents.openDevTools()
+
+    return win;
 }
 
-const createMenu = () => {
+const createMenu = (win) => {
     const isMac = process.platform === 'darwin'
 
     const file = new File()
@@ -48,16 +52,16 @@ const createMenu = () => {
                     label: 'Open File',
                     accelerator: 'CommandOrControl+O',
                     click: () => {
-                        console.log('Open file')
                         file.open_file()
+                        console.log('Open file')
                     }
                 },
                 {
                     label: 'Save',
                     accelerator: 'CommandOrControl+S',
                     click: () => {
+                        win.webContents.send('get-content')
                         console.log('Save file')
-                        file.save_file()
                     }
                 },
             ]
@@ -106,6 +110,11 @@ const createMenu = () => {
         }
     ]
 
+    // IPC
+    ipcMain.on('write-content', (event, file_content) => {
+        file.save_file(file_content)
+    })
+
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 }
@@ -114,8 +123,8 @@ const createMenu = () => {
 nativeTheme.themeSource = 'system'
 
 app.whenReady().then(() => {
-    createWindow()
-    createMenu()
+    const win = createWindow()
+    createMenu(win)
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
