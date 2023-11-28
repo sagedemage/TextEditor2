@@ -16,7 +16,5 @@ jobs:
           node-version: 'lts/*'
       - name: Install Dependencies
         run: npm install
-      - name: Run ESLint for Node
-        run: npm run lint-node
-      - name: Run ESLint for the Browser
-        run: npm run lint-browser
+      - name: Run ESLint
+        run: npm run lint
