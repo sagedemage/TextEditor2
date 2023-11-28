@@ -2,12 +2,11 @@
   "name": "texteditor2",
   "version": "1.0.0",
   "description": "cross platform text editor",
-  "main": "src/main.js",
+  "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint-node": "npx eslint src/main.js src/file.js src/preload.js",
-    "lint-browser": "npx eslint --config .browser-eslintrc.json src/renderer.js",
+    "lint": "npx eslint src/main.js src/file.js src/preload.js src/renderer.js",
     "make": "electron-forge make",
     "package": "electron-forge package"
   },
@@ -20,6 +19,7 @@
     "@electron-forge/maker-squirrel": "^7.1.0",
     "@electron-forge/maker-zip": "^7.1.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.1.0",
+    "@electron-forge/plugin-vite": "^7.1.0",
     "electron": "^27.0.4",
     "eslint": "^8.53.0"
   },
