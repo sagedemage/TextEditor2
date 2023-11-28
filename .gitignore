@@ -133,4 +133,5 @@ dist
 *.xcf
 *.png
 
-
+# Vite
+.vite/
