@@ -19,10 +19,10 @@ const createWindow = () => {
 	//win.loadFile('src/index.html')
 
 	// and load the index.html of the app.
-	if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-		win.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+	if (MAIN_WINDOW_VITE_DEV_SERVER_URL) { // eslint-disable-line
+		win.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL); // eslint-disable-line
 	} else {
-		win.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+		win.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)); // eslint-disable-line
 	}
 
 	win.webContents.openDevTools()
