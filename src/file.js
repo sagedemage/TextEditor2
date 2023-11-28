@@ -12,9 +12,9 @@ class File {
 
     show_file_path(file_path) {
         /* Show the file path on the title of the window */
-        const win = BrowserWindow.getFocusedWindow()
+        const focused_window = BrowserWindow.getFocusedWindow()
 
-        win.setTitle('Text Editor 2 - ' + file_path)
+        focused_window.setTitle('Text Editor 2 - ' + file_path)
     }
 
     show_notification(title, body) {
