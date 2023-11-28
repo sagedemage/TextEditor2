@@ -5,7 +5,7 @@ const { app, BrowserWindow, Menu, nativeTheme, ipcMain } = require('electron')
 const path = require('node:path')
 
 const createWindow = () => {
-	const win = new BrowserWindow({
+	const main_window = new BrowserWindow({
 		width: 800,
 		height: 600,
 		webPreferences: {
@@ -20,17 +20,17 @@ const createWindow = () => {
 
 	// and load the index.html of the app.
 	if (MAIN_WINDOW_VITE_DEV_SERVER_URL) { // eslint-disable-line
-		win.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL); // eslint-disable-line
+		main_window.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL); // eslint-disable-line
 	} else {
-		win.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)); // eslint-disable-line
+		main_window.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)); // eslint-disable-line
 	}
 
-	win.webContents.openDevTools()
+	main_window.webContents.openDevTools()
 
-	return win;
+	return main_window;
 }
 
-const createMenu = (win) => {
+const createMenu = (main_window) => {
 	const isMac = process.platform === 'darwin'
 
 	const file = new File()
@@ -66,7 +66,7 @@ const createMenu = (win) => {
 					label: 'Save',
 					accelerator: 'CommandOrControl+S',
 					click: () => {
-						win.webContents.send('get-content')
+						main_window.webContents.send('get-content')
 					}
 				},
 			]
@@ -128,8 +128,8 @@ const createMenu = (win) => {
 nativeTheme.themeSource = 'system'
 
 app.whenReady().then(() => {
-	const win = createWindow()
-	createMenu(win)
+	const main_window = createWindow()
+	createMenu(main_window)
 
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) {
